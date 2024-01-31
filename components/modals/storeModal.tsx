@@ -4,13 +4,13 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 import { useModalStore } from "@/hooks/useModalStore";
 import { Modal } from "@/components/ui/modal";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { NextResponse } from "next/server";
 import axios from "axios";
 
 const formSchema = z.object({
@@ -32,9 +32,9 @@ export const StoreModal = () => {
     try {
       setLoading(true);
       const response = await axios.post('/api/stores', values);
-      console.log(response.data)
+      toast.success("Store created.")
     } catch (err) {
-      console.log(err)
+      toast.error(`[POST_ERROR]: ${err}`)
     } finally {
       setLoading(false);
     }
